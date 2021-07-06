@@ -1,0 +1,109 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.App {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: #292a2b;
+  form {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    width: 75%;
+    color: #a7a299;
+    max-width: 20rem;
+    div {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      justify-content: center;
+    }
+  }
+  label {
+    margin-top: 1.2rem;
+  }
+
+  input,
+  select {
+    margin-top: 0.5rem;
+    background-color: #242424;
+    color: #a7a299;
+    border: 1px solid black;
+    height: 30px;
+    padding: 4px;
+    &:focus {
+      outline: black;
+    }
+    &:active {
+      outline: black;
+    }
+  }
+  input {
+    &[type="submit"] {
+      margin: 1.5rem auto 0 auto;
+      width: 10rem;
+      height: 2rem;
+    }
+    &[type="time"]::-webkit-calendar-picker-indicator {
+      background: transparent;
+    }
+    &[type="submit"] {
+      margin-bottom: 1.5rem;
+    }
+  }
+  svg {
+    position: absolute;
+    bottom: -8px;
+    right: 15px;
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+    transform: translate(50%, -50%);
+  }
+
+  p {
+    margin-top: 0.5rem;
+    background-color: #ec2731;
+    text-align: center;
+    padding: 0.2rem;
+    height: 1.5rem;
+    color: #222;
+  }
+  .responseStatus {
+    height: fit-content;
+    position: block;
+    width: 100%;
+    max-width: 20rem;
+    margin: 0 auto;
+    padding: 4px;
+    background-color: #ec2731;
+    opacity: 0;
+  }
+  .success {
+    background-color: #1cc650;
+    opacity: 1;
+    animation: responseStatus 1s linear 3s;
+    animation-fill-mode: forwards;
+  }
+  .error {
+    background-color: #ec2731;
+    opacity: 1;
+    animation: responseStatus 1s linear 3s;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes responseStatus {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
