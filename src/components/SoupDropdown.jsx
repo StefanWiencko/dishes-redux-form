@@ -13,15 +13,6 @@ export const SoupDropdown = ({ register, errors }) => {
           valueAsNumber: true,
         })}
       />
-      <p
-        style={
-          errors.spiciness_scale?.type === "required"
-            ? { display: "block" }
-            : { display: "none" }
-        }
-      >
-        Spiciness scale is required
-      </p>
     </>
   );
 };

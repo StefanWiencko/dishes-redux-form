@@ -23,15 +23,6 @@ export const PizzaDropdown = ({ register, errors }) => {
         placeholder="In centimeters"
         {...register("diameter", { required: true, valueAsNumber: true })}
       />
-      <p
-        style={
-          errors.diameter?.type === "required"
-            ? { display: "block" }
-            : { display: "none" }
-        }
-      >
-        Pizza diameter is required name is required
-      </p>
     </>
   );
 };

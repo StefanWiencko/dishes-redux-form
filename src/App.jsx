@@ -18,32 +18,38 @@ function App() {
   } = useForm();
   const watchDishType = watch("type", false);
   const dispatch = useDispatch();
-  const [addRequestStatus, setAddRequestStatus] = useState("idle");
-  const [responseStatus, setResponseStatus] = useState({});
-  const canSend = addRequestStatus === "idle";
-  const responseClasses = `responseStatus${
-    responseStatus.status === "success" ? "success" : ""
-  } ${responseStatus.status === "error" ? "error" : ""}`;
+  const [responseStatus, setResponseStatus] = useState({ isIdle: "idle" });
+  const canSend = responseStatus.isIdle === "idle";
+  const responseClasses = () => {
+    if (responseStatus.status === "pending") return "responseStatus pending";
+    if (responseStatus.status === "success") return "responseStatus success";
+    if (responseStatus.status === "error") return "responseStatus error";
+    return "responseStatus";
+  };
   const submitHandler = async (data) => {
     try {
       if (canSend) {
-        setAddRequestStatus("pending");
+        setResponseStatus({
+          ...responseStatus,
+          isIdle: "pending",
+          status: "pending",
+        });
         const resolut = await dispatch(postDishes(data));
         unwrapResult(resolut);
         reset();
         setResponseStatus({
+          ...responseStatus,
           status: "success",
           message: "Your form has been submitted successfully! :)",
         });
       }
     } catch (error) {
       setResponseStatus({
+        ...responseStatus,
         status: "error",
         message: "Submitting your form went wrong:",
       });
       console.error("Failed to send your form: ", error);
-    } finally {
-      setAddRequestStatus("idle");
     }
   };
 
@@ -56,15 +62,6 @@ function App() {
           name="name"
           {...register("name", { required: true })}
         />
-        <p
-          style={
-            errors.name?.type === "required"
-              ? { display: "block" }
-              : { display: "none" }
-          }
-        >
-          Dish name is required
-        </p>
         <label htmlFor="preparation_time">Preparation time</label>
         <div>
           <ClockSvg />
@@ -75,15 +72,6 @@ function App() {
             {...register("preparation_time", { required: true })}
           />
         </div>
-        <p
-          style={
-            errors.preparation_time?.type
-              ? { display: "block" }
-              : { display: "none" }
-          }
-        >
-          Preparation time is required
-        </p>
         <label htmlFor="type">Dish type</label>
         <select name="type" id="type" {...register("type", { required: true })}>
           <option></option>
@@ -91,15 +79,6 @@ function App() {
           <option value="soup">Soup</option>
           <option value="sandwich">Sandwitch</option>
         </select>
-        <p
-          style={
-            errors.type?.type === "required"
-              ? { display: "block" }
-              : { display: "none" }
-          }
-        >
-          Dish type is required
-        </p>
         {watchDishType === "pizza" && (
           <PizzaDropdown register={register} errors={errors} />
         )}
@@ -109,9 +88,12 @@ function App() {
         {watchDishType === "sandwich" && (
           <SandwichDropdown register={register} errors={errors} />
         )}
+        <p>
+          Required fields <span>*</span>
+        </p>
         <input type="submit" value="Submit" />
-        <p className={responseClasses}>{responseStatus.message}</p>
       </form>
+      <div className={responseClasses()}></div>
     </div>
   );
 }

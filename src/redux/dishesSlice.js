@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export const postDishes = createAsyncThunk(
-  "disches/postDishes",
+  "dishes/postDishes",
   async (initialData) => {
     const URI = "https://frosty-wood-6558.getsandbox.com:443/dishes";
     const response = await axios.post(URI, initialData);

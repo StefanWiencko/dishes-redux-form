@@ -12,15 +12,6 @@ export const SandwichDropdown = ({ register, errors }) => {
           valueAsNumber: true,
         })}
       />
-      <p
-        style={
-          errors.slices_of_bread?.type === "required"
-            ? { display: "block" }
-            : { display: "none" }
-        }
-      >
-        Set the number of slices
-      </p>
     </>
   );
 };
